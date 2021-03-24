@@ -18,11 +18,19 @@ function App() {
   // home work nimo kay always dapat mutrigger ang useEffect
   useEffect(() => {
     const fetchData = async () => {
+
       const db = firebase.firestore()
-      const data = await db.collection("home").get()
-      setHome(data.docs.map(doc => ({...doc.data(), id: doc.id})))
+      // const data = await db.collection("home").get()
+      // setHome(data.docs.map(doc => ({...doc.data(), id: doc.id})))
+      db.collection('home').onSnapshot((querySnapshot) => {
+        const items = []
+        querySnapshot.forEach((doc) => {
+          items.push({...doc.data(), id: doc.id})
+        })
+        setHome(items)
+      })
  }
-    fetchData()
+ fetchData();
   }, [])
 
 

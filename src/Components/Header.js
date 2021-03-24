@@ -5,22 +5,47 @@ import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import { Link } from 'react-router-dom'
+import "./Header.css"
+import firebase from '../firebase'
 
 function Header() {
+    const [dropDown, setDropDown] = React.useState([])
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+          const db = firebase.firestore()
+        //   const data = await db.collection("home").get()
+        //   setDropDown(data.docs.map(doc => ({...doc.data(), id: doc.id})))
+        db.collection('home').onSnapshot((querySnapshot) => {
+            const items = []
+            querySnapshot.forEach((doc) => {
+              items.push(doc.data())
+            })
+            setDropDown(items)
+          })
+     }
+        fetchData()
+      }, [])
+
     return (
         <Navbar bg="dark" expand="lg" variant="dark" style={{ width: "100%" }}>
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+            <Link to={"/"} className="link"><Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand></Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                 <Nav.Link href="#home">Home</Nav.Link>
                 <Nav.Link href="#link">Link</Nav.Link>
                 <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                    {
+                        dropDown.map(down => (
+                            <>
+                            <Link to={"/" + down.Title} className="link">
+                                <NavDropdown.Item href={down.subTitle} key={down.Title}>{down.Title}</NavDropdown.Item>
+                                </Link>
+                            </>
+                        ))
+                    }
                 </NavDropdown>
                 </Nav>
                 <Form inline>

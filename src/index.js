@@ -5,13 +5,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom'
+import reducer, { initialState } from './reducer'
+import { StateProvider } from './StateProvider'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Router>
-    <App />
-    </Router>
-  </React.StrictMode>,
+  // <React.StrictMode>
+    <StateProvider initialState={initialState} reducer={reducer}>
+      <Router>
+        <App />
+      </Router>
+      {/* remove , if you want to put back strictmode */}
+    </StateProvider>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

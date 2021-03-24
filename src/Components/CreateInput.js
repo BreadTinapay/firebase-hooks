@@ -15,6 +15,9 @@ function CreateInput() {
             Title: Title,
             subTitle: subTitle,
             Description: Description });
+        setTitle("")
+        setSubTitle("")
+        setDescription("")
       };
     
 
