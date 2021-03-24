@@ -11,6 +11,7 @@ import firebase from '../firebase'
 
 function Header() {
     const [dropDown, setDropDown] = React.useState([])
+    var setString;
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -20,7 +21,7 @@ function Header() {
         db.collection('home').onSnapshot((querySnapshot) => {
             const items = []
             querySnapshot.forEach((doc) => {
-              items.push(doc.data())
+              items.push({...doc.data(), id: doc.id})
             })
             setDropDown(items)
           })
@@ -28,19 +29,24 @@ function Header() {
         fetchData()
       }, [])
 
+      const formatString=()=>{
+        let temp=dropDown.Title;
+        temp=temp.replace(/\s+/g, '');
+        setString(temp);
+    }
     return (
         <Navbar bg="dark" expand="lg" variant="dark" style={{ width: "100%" }}>
             <Link to={"/"} className="link"><Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand></Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
+                <Link to={"/"} className="link"><Nav.Link href="#home">Home</Nav.Link></Link>
                 <Nav.Link href="#link">Link</Nav.Link>
                 <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                     {
                         dropDown.map(down => (
                             <>
-                            <Link to={"/" + down.Title} className="link">
+                            <Link to={"/" + down.Title.replace(/\s+/g, '-')} className="link">
                                 <NavDropdown.Item href={down.subTitle} key={down.Title}>{down.Title}</NavDropdown.Item>
                                 </Link>
                             </>

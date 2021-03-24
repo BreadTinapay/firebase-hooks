@@ -25,7 +25,7 @@ function App() {
       db.collection('home').onSnapshot((querySnapshot) => {
         const items = []
         querySnapshot.forEach((doc) => {
-          items.push({...doc.data(), id: doc.id})
+          items.push({...doc.data(), id: doc.id}) // for delete to work need to add id: doc.id and for update to work need ... before doc.data
         })
         setHome(items)
       })
@@ -39,7 +39,7 @@ function App() {
       <Header/>
       <Switch>
         {home.map(home => (
-          <Route path={"/" + home.Title}>
+          <Route path={"/" + home.Title.replace(/\s+/g, '-') }>
             <Jumbotron style={{ background: "transparent"}}>
               <Container>
                 <h1 key={home.Title}>{home.Title}</h1>
@@ -54,11 +54,15 @@ function App() {
         ))
           }
         <Route path={"/"}>
-        <Jumbotron style={{ background: "transparent" }}>
-          <Container>
-            <CreateInput/>
-          </Container>
-        </Jumbotron>
+          <div className="allBlock">
+          <div className="leftBlock">
+            <Jumbotron style={{ background: "transparent" }}>
+              <Container>
+                <CreateInput/>
+              </Container>
+            </Jumbotron>
+          </div>
+          <div className="leftRight">
           <Jumbotron style={{ background: "transparent" }}>
           <Container>
             {home.map(home => (
@@ -74,9 +78,12 @@ function App() {
             ))}
           </Container>
           </Jumbotron>
+          </div>
+          </div>
         </Route>
       </Switch>
     </div>
+    
   );
 }
 

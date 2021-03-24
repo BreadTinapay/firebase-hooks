@@ -1,0 +1,19 @@
+.allBlock {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.leftBlock {
+    width: 40%;
+}
+
+@media only screen 
+and (max-width: 1000px){
+    .allBlock {
+        flex-wrap: wrap;
+    }
+
+    .leftBlock {
+        width: 100%;
+    }
+}
