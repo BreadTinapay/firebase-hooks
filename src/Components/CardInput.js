@@ -9,10 +9,12 @@ export const CardInput = ({ home }) => {
     const [subTitle, setSubTitle] = React.useState(home.subTitle)
 
     const onUpdate = () => {
-        const db = firebase.firestore()
-        db.collection('home').doc(home.id).set({...home, Title})
-        db.collection('home').doc(home.id).set({...home, subTitle})
-        db.collection('home').doc(home.id).set({...home, Description})
+        const db = firebase.firestore();
+        db.collection('home').doc(home.id).update({...home, Title, subTitle, Description});
+
+        // db.collection('home').doc(home.id).update({...home, subTitle});
+
+        // db.collection('home').doc(home.id).update({...home, Description});
     }
 
     const onDelete = () => {
@@ -30,7 +32,7 @@ export const CardInput = ({ home }) => {
 
             <Form.Group controlId="formBasicText">
                 <Form.Label>Sub-Title</Form.Label>
-                <Form.Control type="text" value={subTitle} onChange={(e) => setSubTitle(e.target.value)}/>
+                <Form.Control type="text" value={subTitle} onChange={(e) => setSubTitle (e.target.value)}/>
             </Form.Group>
 
             <Form.Group controlId="formBasicText">
@@ -38,11 +40,11 @@ export const CardInput = ({ home }) => {
                 <Form.Control as="textarea" rows={5} type="text" value={Description} onChange={(e) => setDescription(e.target.value)}/>
             </Form.Group>
 
-            <Button variant="primary" type="submit" onClick={onUpdate}>
+            <Button variant="primary" onClick={onUpdate()} style={{ marginRight: "10px" }}>
                 Update
             </Button>
 
-            <Button variant="primary" type="submit" onClick={onDelete}>
+            <Button variant="primary" onClick={onDelete}>
                 Delete
             </Button>
         </Form>
