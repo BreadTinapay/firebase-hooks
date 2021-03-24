@@ -14,6 +14,8 @@ function App() {
   //Firebase Firestore logic
   const [home, setHome] = useState([])
 
+
+  // home work nimo kay always dapat mutrigger ang useEffect
   useEffect(() => {
     const fetchData = async () => {
       const db = firebase.firestore()
@@ -29,11 +31,18 @@ function App() {
       <Header/>
       <Switch>
         {home.map(home => (
-
-        
-        <Route path={"/"+home}>
-
-        </Route>
+          <Route path={"/" + home.Title}>
+            <Jumbotron style={{ background: "transparent"}}>
+              <Container>
+                <h1 key={home.Title}>{home.Title}</h1>
+                <h6 key={home.subTitle}>{home.subTitle}</h6>
+                <p key={home.Description}>{home.Description}</p>
+                <br/>
+                <br/>
+                <br/>
+              </Container>
+            </Jumbotron>
+          </Route>
         ))
           }
         <Route path={"/"}>
