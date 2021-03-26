@@ -9,14 +9,14 @@ import reducer, { initialState } from './reducer'
 import { StateProvider } from './StateProvider'
 
 ReactDOM.render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <StateProvider initialState={initialState} reducer={reducer}>
       <Router>
         <App />
       </Router>
       {/* remove , if you want to put back strictmode */}
-    </StateProvider>,
-  // </React.StrictMode>,
+    </StateProvider>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

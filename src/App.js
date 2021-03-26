@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import './App.css';
 import { Switch, Route } from 'react-router-dom'
 import Header from './Components/Header'
@@ -8,30 +8,31 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 import EditPage from './Components/EditPage';
 import Content from './Components/Content';
 import { useStateValue } from './StateProvider'
+import ContentPage from './Components/ContentPage';
 
 
 function App() {
 
   //Firebase Firestore logic
-  const [home, setHome] = useState([])
+  // const [homes, setHomes] = useState([]);
   const [{admin}, dispatch] = useStateValue();
   
 
   // home work nimo kay always dapat mutrigger ang useEffect
   useEffect(() => {
-    const fetchData = async () => {
+//     const fetchData = async () => {
 
-      const db = firebase.firestore();
-      // const data = await db.collection("home").get()
-      // setHome(data.docs.map(doc => ({...doc.data(), id: doc.id})))
-      db.collection('home').onSnapshot((querySnapshot) => {
-        const items = []
-        querySnapshot.forEach((doc) => {
-          items.push({...doc.data(), id: doc.id}) // for delete to work need to add id: doc.id and for update to work need ... before doc.data
-        })
-        setHome(items)
-      })
- }
+//       const db = firebase.firestore();
+//       // const data = await db.collection("home").get()
+//       // setHome(data.docs.map(doc => ({...doc.data(), id: doc.id})))
+//       db.collection('home').onSnapshot((querySnapshot) => {
+//         const items = []
+//         querySnapshot.forEach((doc) => {
+//           items.push({...doc.data(), id: doc.id}) // for delete to work need to add id: doc.id and for update to work need ... before doc.data
+//         })
+//         setHomes(items)
+//       })
+//  }
  const auth = firebase.auth();
  const unsubscribe = auth.onAuthStateChanged((authUser) => {
   console.log("auth user is", authUser ? authUser.email : authUser);
@@ -60,32 +61,17 @@ function App() {
   }
 });
 return () => {
-  fetchData();
+  // fetchData();
   unsubscribe()
 }
   }, [dispatch])
-
 
   return (
     <div className="app">
       <Header/>
       <Switch>
-        {home.map(home => (
-          <Route path={"/" + home.Title.replace(/\W/g, '-') }>
-            <Jumbotron style={{ background: "transparent"}}>
-              <Container>
-                <h1 key={home.Title}>{home.Title}</h1>
-                <h6 key={home.subTitle}>{home.subTitle}</h6>
-                <p key={home.Description}>{home.Description}</p>
-                <br/>
-                <br/>
-                <br/>
-              </Container>
-            </Jumbotron>
-          </Route>
-        ))
-      }
-          <Route path={admin ? "/edit" : "/"}>
+          <Route path={`/content/:id`} exact component={ContentPage}/>
+          <Route exact path={admin ? "/edit" : "/"}>
             {admin ? (
               <Jumbotron style={{ background: "transparent", padding: "20px" }}>
                 <Container>
@@ -101,7 +87,8 @@ return () => {
               </Jumbotron>
             )}
           </Route>
-          <Route path={"/"}>
+
+          <Route exact path={"/"}>
           <Jumbotron style={{ background: "transparent", padding: "20px" }}>
             <Container>
               <h1>All contents...</h1>
@@ -111,7 +98,6 @@ return () => {
         </Route>
       </Switch>
     </div>
-    
   );
 }
 

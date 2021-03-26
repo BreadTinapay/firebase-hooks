@@ -38,8 +38,7 @@ function EditPage() {
                 <Jumbotron style={{ background: "transparent" }}>
                     <Container>
                         {home.map(home => (
-                            <>
-                            <Card style={{ marginBottom: "10px" }} key={home} >
+                            <Card style={{ marginBottom: "10px" }} key={home.id} >
                             <Card.Body>
                             <Card.Title key={home.Title}>{home.Title}</Card.Title>
                             <Card.Subtitle className="mb-2 text-muted" key={home.subTitle}>{home.subTitle}</Card.Subtitle>
@@ -49,7 +48,6 @@ function EditPage() {
                                 <Popup home={home} />
                             </Card.Body>
                         </Card>
-                        </>
                         ))}
                     </Container>
                 </Jumbotron>

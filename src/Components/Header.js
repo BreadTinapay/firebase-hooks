@@ -54,13 +54,12 @@ function Header() {
                 <NavDropdown title="Blog Pages" id="basic-nav-dropdown">
                     {
                         dropDown.map(down => (
-                            <>
-                            {/* <Link to={"/" + down.Title} className="link"> */}
-                            <Link to={"/" + down.Title.replace(/\W/g, '-')} className="link">
-                            {/* <Link to={"/" + down.Title.replace(/\s+/g, '-')} className="link"> */}
-                                <NavDropdown.Item href={down.subTitle} key={down.Title}>{down.Title}</NavDropdown.Item>
-                                </Link>
-                            </>
+                            
+                            <Link to={`/content/${down.id}`} className="link" key={down.id}>
+                                {/* <Link to={"/" + down.subTitle.replace(/\W/g, '-')} className="link"> */}
+                                <NavDropdown.Item href={"#" + down.Title} key={down.id}>{down.Title}</NavDropdown.Item>
+                            </Link>
+                            
                         ))
                     }
                 </NavDropdown>
