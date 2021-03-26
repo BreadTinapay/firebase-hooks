@@ -14,7 +14,7 @@ import { useStateValue } from '../StateProvider'
 function Header() {
     const [dropDown, setDropDown] = React.useState([])
     const [search, setSearch] = React.useState()
-    const [{admin}] = useStateValue();
+    const [{user, admin}] = useStateValue();
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -33,7 +33,8 @@ function Header() {
       }, [])
 
       const handleSearchButton = () => {
-          alert("Don't you dare click the search button");
+          alert("Under Development...");
+          setSearch("Search")
       }
 
     return (
@@ -70,7 +71,7 @@ function Header() {
                 type="text"
                  placeholder="Search"
                   className="mr-sm-2"
-                   value={search}
+                   value={user ? user.email : search}
                     onChange={(e) => setSearch(e.target.value)} 
                     />
 
