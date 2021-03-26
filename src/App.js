@@ -71,7 +71,7 @@ return () => {
       <Header/>
       <Switch>
         {home.map(home => (
-          <Route path={"/" + home.Title.replace(/\W/g, '') }>
+          <Route path={"/" + home.Title.replace(/\W/g, '-') }>
             <Jumbotron style={{ background: "transparent"}}>
               <Container>
                 <h1 key={home.Title}>{home.Title}</h1>

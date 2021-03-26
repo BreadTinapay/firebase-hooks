@@ -33,7 +33,7 @@ function Content() {
                     {home.map(homes => (
                         <>
                             <Link 
-                            to={"/" + homes.Title.replace(/\W/g, '')} 
+                            to={"/" + homes.Title.replace(/\W/g, '-')} 
                             style={{ color: "inherit", textDecoration: "none"}}
                             >
                                 <Card style={{ width: '100%', marginBottom: "10px" }} key={homes} >

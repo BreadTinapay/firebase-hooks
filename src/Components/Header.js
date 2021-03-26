@@ -56,7 +56,7 @@ function Header() {
                         dropDown.map(down => (
                             <>
                             {/* <Link to={"/" + down.Title} className="link"> */}
-                            <Link to={"/" + down.Title.replace(/\W/g, '')} className="link">
+                            <Link to={"/" + down.Title.replace(/\W/g, '-')} className="link">
                             {/* <Link to={"/" + down.Title.replace(/\s+/g, '-')} className="link"> */}
                                 <NavDropdown.Item href={down.subTitle} key={down.Title}>{down.Title}</NavDropdown.Item>
                                 </Link>
