@@ -8,10 +8,13 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import { Link } from 'react-router-dom'
 import "./Header.css"
 import firebase from '../firebase'
+import SignInButton from './SignInButton'
+import { useStateValue } from '../StateProvider'
 
 function Header() {
     const [dropDown, setDropDown] = React.useState([])
-    var setString;
+    const [search, setSearch] = React.useState()
+    const [{admin}] = useStateValue();
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -29,24 +32,31 @@ function Header() {
         fetchData()
       }, [])
 
-      const formatString=()=>{
-        let temp=dropDown.Title;
-        temp=temp.replace(/\s+/g, '');
-        setString(temp);
-    }
+      const handleSearchButton = () => {
+          alert("Don't you dare click the search button");
+      }
+
     return (
         <Navbar bg="dark" expand="lg" variant="dark" style={{ width: "100%" }}>
-            <Link to={"/"} className="link"><Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand></Link>
+            <Link to={"/"} className="link"><Navbar.Brand href="#home">Bo's Blog</Navbar.Brand></Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                 <Link to={"/"} className="link"><Nav.Link href="#home">Home</Nav.Link></Link>
-                <Nav.Link href="#link">Link</Nav.Link>
-                <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                {
+                   admin ? (
+                    <Link to={"/edit"} className="link"><Nav.Link href="#edit">Edit Contents</Nav.Link></Link>
+                   ) : (
+                    <Link to={"/edit"} className="link"><Nav.Link href="#edit" style={{ display: "none" }}>Edit Contents</Nav.Link></Link>
+                   )
+                }
+                <NavDropdown title="Blog Pages" id="basic-nav-dropdown">
                     {
                         dropDown.map(down => (
                             <>
-                            <Link to={"/" + down.Title.replace(/\s+/g, '-')} className="link">
+                            {/* <Link to={"/" + down.Title} className="link"> */}
+                            <Link to={"/" + down.Title.replace(/\W/g, '')} className="link">
+                            {/* <Link to={"/" + down.Title.replace(/\s+/g, '-')} className="link"> */}
                                 <NavDropdown.Item href={down.subTitle} key={down.Title}>{down.Title}</NavDropdown.Item>
                                 </Link>
                             </>
@@ -55,9 +65,18 @@ function Header() {
                 </NavDropdown>
                 </Nav>
                 <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                <Button variant="outline-success">Search</Button>
+
+                <FormControl 
+                type="text"
+                 placeholder="Search"
+                  className="mr-sm-2"
+                   value={search}
+                    onChange={(e) => setSearch(e.target.value)} 
+                    />
+
+                <Button variant="outline-success" onClick={handleSearchButton}>Search</Button>
                 </Form>
+                <SignInButton />
             </Navbar.Collapse>
         </Navbar>
     )
